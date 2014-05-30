@@ -58,7 +58,22 @@ namespace Swashbuckle.Swagger
                 filter.Apply(operation, _dataTypeRegistry, apiDescription);
             }
 
+
+            OrderResponseMessages(operation);
+
             return operation;
+        }
+
+        private void OrderResponseMessages(Operation operation)
+        {
+            if (operation.ResponseMessages.Count < 1) return;
+
+            ((List<ResponseMessage>)operation.ResponseMessages).Sort((f, s) =>
+            {
+                if (f.Code > s.Code) return 1;
+                if (f.Code < s.Code) return -1;
+                return 0;
+            });
         }
 
         private Parameter CreateParameter(ApiParameterDescription apiParamDesc, string apiPath)

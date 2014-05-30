@@ -17,6 +17,7 @@ namespace Swashbuckle.Swagger
         private readonly IEnumerable<PolymorphicType> _polymorphicTypes;
         private readonly IEnumerable<IModelFilter> _modelFilters;
         private readonly IEnumerable<IOperationFilter> _operationFilters;
+        private readonly ApiInfo _apiInfo;
 
         public ApiExplorerAdapter(
             IApiExplorer apiExplorer,
@@ -26,7 +27,8 @@ namespace Swashbuckle.Swagger
             Dictionary<Type, Func<DataType>> customTypeMappings,
             IEnumerable<PolymorphicType> polymorphicTypes,
             IEnumerable<IModelFilter> modelFilters,
-            IEnumerable<IOperationFilter> operationFilters)
+            IEnumerable<IOperationFilter> operationFilters,
+            ApiInfo apiInfo)
         {
             _apiExplorer = apiExplorer;
             _ignoreObsoleteActions = ignoreObsoleteActions;
@@ -36,6 +38,7 @@ namespace Swashbuckle.Swagger
             _polymorphicTypes = polymorphicTypes;
             _modelFilters = modelFilters;
             _operationFilters = operationFilters;
+            _apiInfo = apiInfo;
         }
 
         public ResourceListing GetListing(string basePath, string version)
@@ -50,7 +53,8 @@ namespace Swashbuckle.Swagger
             {
                 SwaggerVersion = SwaggerVersion,
                 ApiVersion = version,
-                Apis = resources
+                Apis = resources,
+                Info = _apiInfo
             };
         }
 

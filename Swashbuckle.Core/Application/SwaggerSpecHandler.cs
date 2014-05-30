@@ -48,7 +48,9 @@ namespace Swashbuckle.Application
                 _config.ResolveResourceName,
                 _config.CustomTypeMappings,
                 _config.PolymorphicTypes,
-                _config.ModelFilters, _config.OperationFilters);
+                _config.ModelFilters, 
+                _config.OperationFilters,
+                _config.ApiInformation);
 
             return new CachingSwaggerProvider(swaggerProvider);
         }

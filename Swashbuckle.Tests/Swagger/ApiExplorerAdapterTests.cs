@@ -752,7 +752,9 @@ namespace Swashbuckle.Tests.Swagger
                 resourceNameResolver ?? (apiDesc => apiDesc.ActionDescriptor.ControllerDescriptor.ControllerName),
                 customTypeMappings ?? new Dictionary<Type, Func<DataType>>(), 
                 polymorphicTypes ?? new PolymorphicType[]{},
-                new List<IModelFilter>(), operationFilters ?? new List<IOperationFilter>());
+                new List<IModelFilter>(), 
+                operationFilters ?? new List<IOperationFilter>(),
+                new ApiInfo());
         }
 
         private static void ApiDeclaration(ISwaggerProvider swaggerProvider, string resourceName, Action<ApiDeclaration> applyAssertions)

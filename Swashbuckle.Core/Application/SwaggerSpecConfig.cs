@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http.Description;
 using System.Xml.XPath;
@@ -19,15 +20,23 @@ namespace Swashbuckle.Application
 
         public SwaggerSpecConfig()
         {
-            ResolveBasePath = (req) => req.RequestUri.GetLeftPart(UriPartial.Authority) + req.GetConfiguration().VirtualPathRoot.TrimEnd('/');
+            ResolveBasePath =
+                (req) =>
+                req.RequestUri.GetLeftPart(UriPartial.Authority) + req.GetConfiguration().VirtualPathRoot.TrimEnd('/');
             ResolveTargetVersion = (req) => "1.0";
             IgnoreObsoleteActionsFlag = false;
             ResolveVersionSupport = (apiDesc, version) => true;
             ResolveResourceName = (apiDesc) => apiDesc.ActionDescriptor.ControllerDescriptor.ControllerName;
-            OperationFilters = new List<IOperationFilter>();
+            OperationFilters = InitializeDefaultOperationFilters();  
             PolymorphicTypes = new List<PolymorphicType>();
             CustomTypeMappings = new Dictionary<Type, Func<DataType>>();
             ModelFilters = new List<IModelFilter>();
+            ApiInformation = new ApiInfo();
+        }
+
+        private List<IOperationFilter> InitializeDefaultOperationFilters()
+        {
+            return new List<IOperationFilter> { new ApplySwaggerAttribute() };
         }
 
         internal Func<HttpRequestMessage, string> ResolveBasePath { get; private set; }
@@ -39,6 +48,7 @@ namespace Swashbuckle.Application
         internal List<PolymorphicType> PolymorphicTypes { get; private set; }
         internal Dictionary<Type, Func<DataType>> CustomTypeMappings { get; private set; }
         internal List<IModelFilter> ModelFilters { get; private set; }
+        internal ApiInfo ApiInformation { get; private set; }
 
         public SwaggerSpecConfig ResolveBasePathUsing(Func<HttpRequestMessage, string> resolveBasePath)
         {
@@ -119,6 +129,18 @@ namespace Swashbuckle.Application
             var xmlCommentsDoc = new XPathDocument(xmlCommentsPath);
             OperationFilters.Add(new ApplyActionXmlComments(xmlCommentsDoc));
             ModelFilters.Add(new ApplyTypeXmlComments(xmlCommentsDoc));
+            return this;
+        }
+
+        public SwaggerSpecConfig ApiInfo(ApiInfo apiInfo)
+        {
+            ApiInformation = apiInfo;
+            return this;
+        }
+
+        public SwaggerSpecConfig OperationErrorStatusCodes(IEnumerable<HttpStatusCode> httpStatusCodes)
+        {
+            OperationFilters.Add(new ApplyErrorStatusCodes(httpStatusCodes));
             return this;
         }
     }

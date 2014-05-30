@@ -78,6 +78,8 @@
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="Swagger\ApiExplorerAdapter.cs" />
     <Compile Include="Swagger\ApplyActionXmlComments.cs" />
+    <Compile Include="Swagger\ApplyErrorStatusCodes.cs" />
+    <Compile Include="Swagger\ApplySwaggerAttribute.cs" />
     <Compile Include="Swagger\ApplyTypeXmlComments.cs" />
     <Compile Include="Swagger\DataTypeRegistry.cs" />
     <Compile Include="Swagger\IModelFilter.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Swagger\ISwaggerProvider.cs" />
     <Compile Include="Swagger\OperationGenerator.cs" />
     <Compile Include="PolymorphicType.cs" />
+    <Compile Include="Swagger\SwaggerAttribute.cs" />
     <Compile Include="TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup />

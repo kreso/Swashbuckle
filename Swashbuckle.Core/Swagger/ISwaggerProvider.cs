@@ -20,6 +20,9 @@ namespace Swashbuckle.Swagger
 
         [JsonProperty("apis")]
         public IList<Resource> Apis { get; set; }
+
+        [JsonProperty("info")]
+        public ApiInfo Info { get; set; }
     }
 
     public class Resource
@@ -29,6 +32,27 @@ namespace Swashbuckle.Swagger
 
         [JsonProperty("description")]
         public string Description { get; set; }
+    }
+
+    public class ApiInfo
+    {
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonProperty("termsOfServiceUrl")]
+        public string TermsOfServiceUrl { get; set; }
+
+        [JsonProperty("contact")]
+        public string Contact { get; set; }
+
+        [JsonProperty("license")]
+        public string License { get; set; }
+
+        [JsonProperty("licenseUrl")]
+        public string LicenseUrl { get; set; }
     }
 
     public class ApiDeclaration
